@@ -23,7 +23,7 @@ on fs
 
 on boot
 start teei_daemon
-    start health-hal-2-0
+    start health-hal-2-1
     start keymaster-4-0
     start gatekeeper-1-0
 
@@ -35,29 +35,29 @@ service keystore_auth /system/bin/keystore_cli_v2
     seclabel u:r:recovery:s0
 
 service keystore /system/bin/keystore /data/misc/keystore
-    user root
-    group root drmrpc readproc log
+    user keystore
+    group keystore drmrpc readproc log
     writepid /dev/cpuset/foreground/tasks
 disabled
     seclabel u:r:recovery:s0
 
 service gatekeeper-1-0 /vendor/bin/hw/android.hardware.gatekeeper@1.0-service
-    user root
-    group root drmrpc
+    user system
+    group system drmrpc
     disabled
     seclabel u:r:recovery:s0
 
 service keymaster-4-0 /vendor/bin/hw/android.hardware.keymaster@4.0-service.beanpod
-    user root
-    group root drmrpc
+    user system
+    group system drmrpc
     disabled
     seclabel u:r:recovery:s0
 
 service keymaster_attestation-1-1 /vendor/bin/hw/vendor.mediatek.hardware.keymaster_attestation@1.1-service
     interface vendor.mediatek.hardware.keymaster_attestation@1.0::IKeymasterDevice default
     interface vendor.mediatek.hardware.keymaster_attestation@1.1::IKeymasterDevice default
-    user root
-    group root
+    user system
+    group system drmpc
     disabled
 seclabel u:r:recovery:s0
 
