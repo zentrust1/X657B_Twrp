@@ -30,29 +30,29 @@ start keymaster_attestation-1-1
 
 service keystore_auth /system/bin/keystore_cli_v2
     oneshot
-    user system
+    user root
     group root
     disabled
     seclabel u:r:recovery:s0
 
 service keystore /system/bin/keystore /data/misc/keystore
-    user keystore
-    group keystore drmrpc readproc log
+    user root
+    group root drmrpc readproc
     writepid /dev/cpuset/foreground/tasks
 disabled
     seclabel u:r:recovery:s0
 
 service gatekeeper-1-0 /vendor/bin/hw/android.hardware.gatekeeper@1.0-service
 class hal
-    user system
-    group system drmrpc
+    user root
+    group root drmrpc
     disabled
     seclabel u:r:recovery:s0
 
 service keymaster-4-0 /vendor/bin/hw/android.hardware.keymaster@4.0-service.beanpod
 class early_hal
-    user system
-    group system drmrpc
+    user root
+    group root drmrpc
     disabled
     seclabel u:r:recovery:s0
 
@@ -60,8 +60,8 @@ service keymaster_attestation-1-1 /vendor/bin/hw/vendor.mediatek.hardware.keymas
     interface vendor.mediatek.hardware.keymaster_attestation@1.0::IKeymasterDevice default
     interface vendor.mediatek.hardware.keymaster_attestation@1.1::IKeymasterDevice default
  class hal
-    user system
-    group system drmpc
+    user root
+    group root drmpc
     disabled
 seclabel u:r:recovery:s0
 
