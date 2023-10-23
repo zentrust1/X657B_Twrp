@@ -1,0 +1,6 @@
+on boot
+
+# For starting recovery on 5.0 and newer
+service recovery /system/bin/recovery-persist
+    socket recovery stream 422 root root 
+    seclabel u:r:recovery:s0
