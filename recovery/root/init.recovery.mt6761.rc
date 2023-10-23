@@ -1,5 +1,5 @@
 import /microtrust.rc
-
+import /init.recovery.service.rc
 on init
     mkdir /mnt/vendor/persist 0700 root root
     #mount ext4 /dev/block/platform/bootdevice/by-name/persist /mnt/vendor/persist
