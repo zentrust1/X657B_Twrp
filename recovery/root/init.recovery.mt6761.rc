@@ -28,6 +28,7 @@ start tee
     start gatekeeper-1-0
 start keymaster_attestation-1-1
 start gatekeeperd
+start wait_for_keymaster
 
 service keystore_auth /system/bin/keystore_cli_v2
     oneshot
@@ -64,6 +65,14 @@ service keymaster_attestation-1-1 /vendor/bin/hw/vendor.mediatek.hardware.keymas
     user system
     group system drmpc
     disabled
+seclabel u:r:recovery:s0
+
+service wait_for_keymaster /system/bin/wait_for_keymaster
+    user root
+    group root system
+    priority -20
+    ioprio rt 0
+disabled
 seclabel u:r:recovery:s0
 
 service gatekeeperd /system/bin/gatekeeperd /data/misc/gatekeeper
