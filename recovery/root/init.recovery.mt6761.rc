@@ -22,26 +22,23 @@ on fs
 
 on boot
 start teei_daemon
-start tee
     start health-hal-2-1
     start keymaster-4-0
     start gatekeeper-1-0
 start keymaster_attestation-1-1
 start gatekeeperd
 start wait_for_keymaster
-start keystore_auth
-start keystore
 
 service keystore_auth /system/bin/keystore_cli_v2
     oneshot
     user system
-    group system
+    group root
     disabled
     seclabel u:r:recovery:s0
 
 service keystore /system/bin/keystore /data/misc/keystore
-    user system
-    group system drmrpc readproc
+    user keystore
+    group keystore drmrpc readproc
     writepid /dev/cpuset/foreground/tasks
 disabled
     seclabel u:r:recovery:s0
