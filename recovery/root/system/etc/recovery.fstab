@@ -40,12 +40,6 @@ product /product ext4 ro wait,avb,logical,first_stage_mount
 /dev/block/platform/bootdevice/by-name/persist /mnt/vendor/persist ext4 noatime,nosuid,nodev,noauto_da_alloc,commit=1,nodelalloc wait,check,formattable
 
 
-/devices/platform/externdevice* auto auto defaults voldmanaged=sdcard1:auto,encryptable=userdata
-
-
-/devices/platform/mt_usb* auto vfat defaults voldmanaged=usbotg:auto,encryptable=userdata
-
-
 /dev/block/platform/bootdevice/by-name/frp /persistent emmc defaults defaults
 
 /dev/block/platform/bootdevice/by-name/nvram /nvram emmc defaults defaults
