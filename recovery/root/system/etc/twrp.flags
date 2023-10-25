@@ -26,7 +26,9 @@
 /tee1		    	emmc      /dev/block/platform/bootdevice/by-name/tee1
 /tee2		    	emmc      /dev/block/platform/bootdevice/by-name/tee2
 /super             emmc        /dev/block/platform/bootdevice/by-name/super                        flags=display=Super;backup=1;flashimg=1;             
-
+/system           ext4            /dev/block/mapper/system                                         flags=display=System;backup=1;flashimg=1;slotselect:
+/product           ext4         /dev/block/mapper/product                                           flags=display=Product;backup=1;flashimg=1;slotselect;
+/vendor             ext4         /dev/block/mapper/vendor                                           flags=display=Vendor;backup=1;flashimg=1;slotselect;
 # AVB
 /vbmeta				emmc	  /dev/block/platform/bootdevice/by-name/vbmeta			              flags=display="VBMeta";backup=1;flashimg=1
 /vbmeta_system		emmc	  /dev/block/platform/bootdevice/by-name/vbmeta_system				  flags=display="VBMeta System";backup=1;flashimg=1
