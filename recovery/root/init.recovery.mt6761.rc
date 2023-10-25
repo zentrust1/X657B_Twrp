@@ -28,6 +28,12 @@ exec_start update_verifier
 start teei_daemon
 start health-hal-2-1
 
+service gatekeeperd /system/bin/gatekeeperd /data/misc/gatekeeper
+    class late_start
+    user system
+    writepid /dev/cpuset/system-background/tasks
+disabled
+seclabel u:r:recovery:s0
 
 service keystore /system/bin/keystore /data/misc/keystore
     user keystore
@@ -62,20 +68,21 @@ seclabel u:r:recovery:s0
 
 on property:crypto.ready=1
 start teei_daemon
+start gatekeeperd
 start keymaster-4-0
 start keymaster_attestation-1-1
 start gatekeeper-1-0
 
-on property:fbe.ready=1
-start keymaster-4-0
-start keymaster_attestation-1-1
-
 on property:ro.crypto.state=encrypted
+start teei_daemon
+start gatekeeperd
 start keymaster-4-0
 start keymaster_attestation-1-1
 start gatekeeper-1-0
 
 on property:hwservicemanager.ready=true
+start teei_daemon
+start gatekeeperd
     start keymaster-4-0
     start gatekeeper-1-0
     start keymaster_attestation-1-1
@@ -83,21 +90,24 @@ on property:hwservicemanager.ready=true
     
 on property:ro.crypto.state=unsupported
     stop teei_daemon
+stop gatekeeperd
     stop keymaster-4-0
     stop gatekeeper-1-0
     stop keymaster_attestation-1-1
-    stop wait_for_keymaster
+   
 
 on property:ro.crypto.state=unencrypted
     stop teei_daemon
+stop gatekeeperd
     stop keymaster-4-0
     stop gatekeeper-1-0
     stop keymaster_attestation-1-1
-    stop wait_for_keymaster
+   
 
 on property:twrp.decrypt.done=true
     stop teei_daemon
+stop gatekeeperd
     stop keymaster-4-0
     stop gatekeeper-1-0
     stop keymaster_attestation-1-1
-    stop wait_for_keymaster
+   
