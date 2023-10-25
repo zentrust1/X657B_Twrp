@@ -18,7 +18,7 @@
 /gz1                emmc      /dev/block/platform/bootdevice/by-name/gz1                   
 /gz2                emmc      /dev/block/platform/bootdevice/by-name/gz2                 
 /spmfw              emmc      /dev/block/platform/bootdevice/by-name/spmfw                  
-/dtbo               emmc      /dev/block/platform/bootdevice/by-name/dtbo                           flags=display=DTBO;backup=1;flashing=1;slotselect;           
+/dtbo               emmc      /dev/block/platform/bootdevice/by-name/dtbo                           flags=display=DTBO;backup=1;flashimg=1;slotselect;           
 /otp                emmc      /dev/block/platform/bootdevice/by-name/otp                   
 /tkv                emmc      /dev/block/platform/bootdevice/by-name/tkv                       
 /lk                 emmc      /dev/block/platform/bootdevice/by-name/bootloader
