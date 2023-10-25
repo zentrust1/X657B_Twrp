@@ -1,5 +1,6 @@
 import /microtrust.rc
 on init
+
     mkdir /mnt/vendor/persist 0700 root root
     #mount ext4 /dev/block/platform/bootdevice/by-name/persist /mnt/vendor/persist
     #export LD_LIBRARY_PATH /system/lib:/vendor/lib:/vendor/lib/hw:/system/lib/hw
@@ -19,22 +20,14 @@ on post-fs
 on fs
     install_keyring
     setprop crypto.ready 1
+setprop fbe.ready 1
 
 on boot
+wait_for_prop hwservicemanager.ready "true"
+exec_start update_verifier
 start teei_daemon
-    start health-hal-2-1
-    start keymaster-4-0
-    start gatekeeper-1-0
-start keymaster_attestation-1-1
-start gatekeeperd
-start wait_for_keymaster
+start health-hal-2-1
 
-service keystore_auth /system/bin/keystore_cli_v2
-    oneshot
-    user system
-    group root
-    disabled
-    seclabel u:r:recovery:s0
 
 service keystore /system/bin/keystore /data/misc/keystore
     user keystore
@@ -66,37 +59,45 @@ service keymaster_attestation-1-1 /vendor/bin/hw/vendor.mediatek.hardware.keymas
     disabled
 seclabel u:r:recovery:s0
 
-service wait_for_keymaster /system/bin/wait_for_keymaster
-    user root
-    group root system
-    priority -20
-    ioprio rt 0
-disabled
-seclabel u:r:recovery:s0
 
-service gatekeeperd /system/bin/gatekeeperd /data/misc/gatekeeper
-    class late_start
-    user system
-    writepid /dev/cpuset/system-background/tasks
-seclabel u:r:recovery:s0
+on property:crypto.ready=1
+start teei_daemon
+start keymaster-4-0
+start keymaster_attestation-1-1
+start gatekeeper-1-0
+
+on property:fbe.ready=1
+start keymaster-4-0
+start keymaster_attestation-1-1
+
+on property:ro.crypto.state=encrypted
+start keymaster-4-0
+start keymaster_attestation-1-1
+start gatekeeper-1-0
 
 on property:hwservicemanager.ready=true
     start keymaster-4-0
     start gatekeeper-1-0
+    start keymaster_attestation-1-1
+   
     
 on property:ro.crypto.state=unsupported
     stop teei_daemon
     stop keymaster-4-0
     stop gatekeeper-1-0
+    stop keymaster_attestation-1-1
+    stop wait_for_keymaster
 
 on property:ro.crypto.state=unencrypted
     stop teei_daemon
     stop keymaster-4-0
     stop gatekeeper-1-0
+    stop keymaster_attestation-1-1
+    stop wait_for_keymaster
 
 on property:twrp.decrypt.done=true
     stop teei_daemon
     stop keymaster-4-0
     stop gatekeeper-1-0
-
-
+    stop keymaster_attestation-1-1
+    stop wait_for_keymaster
