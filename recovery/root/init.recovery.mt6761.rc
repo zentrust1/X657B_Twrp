@@ -26,6 +26,9 @@ on boot
 wait_for_prop hwservicemanager.ready "true"
 exec_start update_verifier
 start teei_daemon
+start keymaster-4-0
+start keymaster_attestation-1-1
+start gatekeeper-1-0
 start health-hal-2-1
 
 service gatekeeperd /system/bin/gatekeeperd /data/misc/gatekeeper
