@@ -26,10 +26,14 @@
 /tee1		          	emmc      /dev/block/platform/bootdevice/by-name/tee1
 /tee2		          	emmc      /dev/block/platform/bootdevice/by-name/tee2
 /super              emmc        /dev/block/platform/bootdevice/by-name/super                        flags=display="Super";backup=1;flashimg=1;             
-/system             ext4       /dev/block/mapper/system                                              flags=display="System";flashimg=1;
-/system_ext         ext4          /dev/block/mapper/system_ext                                     flags=display="System_Ext";flashing=1;
-/product            ext4          /dev/block/mapper/product                                        flags=display="Product";flashimg=1;
-/vendor             ext4          /dev/block/mapper/vendor                                         flags=display="Vendor";flashimg=1;
+  
+/system_image	    emmc	/dev/block/mapper/system    flags=backup=1;display="System Image";flashimg=1
+/vendor_image	    emmc	/dev/block/mapper/vendor    flags=backup=1;display="Vendor Image";flashimg=1
+/product_image	    emmc	/dev/block/mapper/product   flags=backup=1;display="Product Image";flashimg=1
+/system		    ext4	/dev/block/mapper/system      flags=backup=1;display="System ext4"
+/vendor             ext4        /dev/block/mapper/vendor      flags=backup=1;display="Vendor ext4"
+/product            ext4        /dev/block/mapper/product     flags=backup=1;display="Product ext4"
+/data             f2fs    /dev/block/platform/bootdevice/by-name/userdata                 flags=fileencryption=aes-256-xts:aes-256-cts:v1
 # AVB
 /vbmeta				emmc	  /dev/block/platform/bootdevice/by-name/vbmeta			              flags=display="VBMeta";backup=1;flashimg=1
 /vbmeta_system		emmc	  /dev/block/platform/bootdevice/by-name/vbmeta_system				  flags=display="VBMeta System";backup=1;flashimg=1
@@ -37,6 +41,5 @@
 
 
 # External Storage
-/data             f2fs    /dev/block/platform/bootdevice/by-name/userdata                 flags=fileencryption=aes-256-xts:aes-256-cts:v1
 /external_sd        auto      /dev/block/mmcblk1p1	/dev/block/mmcblk1 	     					  flags=display="MicroSD Card";storage;wipeingui;removable
 /usb-otg            vfat      /dev/block/sdd1  /dev/block/sdd                     				  flags=display="USB Storage";storage;wipeingui;removable;fsflags="utf8"
