@@ -1,5 +1,5 @@
 
-name: Recovery Build
+name: OFRP Build
 
 on:
   workflow_dispatch:
