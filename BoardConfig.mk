@@ -166,5 +166,7 @@ TW_SCREEN_BLANK_ON_BOOT := true
 TW_INCLUDE_REPACKTOOLS := true
 TW_HAS_MTP := true
 TW_INCLUDE_RESETPROP := true
+TW_INPUT_BLACKLIST := "hbtp_vm"
+TW_USE_TOOLBOX := true
 # Maintainer/Version
 TW_DEVICE_VERSION := Massatrio16
