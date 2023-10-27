@@ -1,4 +1,5 @@
 import /microtrust.rc
+import /uncrypt.rc
 on init
 
     mkdir /mnt/vendor/persist 0700 root root
