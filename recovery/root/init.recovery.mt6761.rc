@@ -20,11 +20,12 @@ on post-fs
 on fs
     install_keyring
     setprop crypto.ready 1
-setprop fbe.ready 1
+
 
 on boot
 wait_for_prop hwservicemanager.ready "true"
 exec_start update_verifier
+start uncrypt
 start teei_daemon
 start gatekeeperd
 start keymaster-4-0
