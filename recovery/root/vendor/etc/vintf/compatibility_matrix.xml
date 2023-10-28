@@ -55,6 +55,22 @@
             <instance>default</instance>
         </interface>
     </hal>
+    <hal format="hidl" optional="true">
+        <name>android.hardware.keymaster</name>
+        <version>4.0</version>
+        <interface>
+            <name>IKeymasterDevice</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+        <hal format="hidl" optional="true">
+        <name>android.hardware.keymaster</name>
+        <version>4.0-1</version>
+        <interface>
+            <name>IKeymasterDevice</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
     <vendor-ndk>
         <version>30</version>
     </vendor-ndk>
