@@ -27,6 +27,7 @@ on fs
 on boot
 wait_for_prop hwservicemanager.ready "true"
 exec_start update_verifier
+start beanpod_check_keybox_service
 start uncrypt
 start teei_daemon
 start gatekeeperd
@@ -34,6 +35,13 @@ start keymaster-4-0
 start keymaster_attestation-1-1
 start gatekeeper-1-0
 start health-hal-2-1
+
+service beanpod_check_keybox_service /vendor/bin/bp_kmsetkey_ca -c
+    class late_start
+    user system
+    group system
+    oneshot
+seclabel u:r:recovery:s0
 
 service gatekeeperd /system/bin/gatekeeperd /data/misc/gatekeeper
     class late_start
