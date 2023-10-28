@@ -539,6 +539,26 @@
         </interface>
         <fqname>@1.0::ITranLogConfig/default</fqname>
     </hal>
+        <hal format="hidl">
+        <name>android.hardware.keymaster</name>
+        <transport>hwbinder</transport>
+        <version>4.0</version>
+        <interface>
+            <name>IKeymasterDevice</name>
+            <instance>strongbox</instance>
+        </interface>
+        <fqname>@4.0::IKeymasterDevice/strongbox</fqname>
+    </hal>
+    <hal format="hidl">
+        <name>vendor.mediatek.hardware.keymaster_attestation</name>
+        <transport>hwbinder</transport>
+        <version>1.1</version>
+        <interface>
+            <name>IKeymasterDevice</name>
+            <instance>strongbox</instance>
+        </interface>
+        <fqname>@1.1::IKeymasterDevice/strongbox</fqname>
+    </hal>
     <sepolicy>
         <version>30.0</version>
     </sepolicy>
