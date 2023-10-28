@@ -27,7 +27,6 @@ on fs
 on boot
 wait_for_prop hwservicemanager.ready "true"
 exec_start update_verifier
-start beanpod_check_keybox_service
 start uncrypt
 start teei_daemon
 start gatekeeperd
