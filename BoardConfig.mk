@@ -136,7 +136,6 @@ $(TARGET_OUT_SHARED_LIBRARIES)/libSoftGatekeeper.so \
     $(TARGET_OUT_SHARED_LIBRARIES)/libpuresoftkeymasterdevice.so 
 
 # Properties
-TARGET_RECOVERY_INITRC := $(DEVICE_PATH)/recovery/root/system/etc/init/hw/init.rc
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/system/etc/recovery.fstab
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
