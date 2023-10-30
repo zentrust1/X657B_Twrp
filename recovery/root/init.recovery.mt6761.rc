@@ -1,10 +1,11 @@
 import /microtrust.rc
 import /uncrypt.rc
 on init
-
+class_start early_hal
+load_persist_props
     mkdir /mnt/vendor/persist 0700 root root
     #mount ext4 /dev/block/platform/bootdevice/by-name/persist /mnt/vendor/persist
-    #export LD_LIBRARY_PATH /system/lib:/vendor/lib:/vendor/lib/hw:/system/lib/hw
+    export LD_LIBRARY_PATH /system/lib:/vendor/lib:/vendor/lib/hw:/system/lib/hw
 
     # Create a more standard /dev/block layout for our scripts
     symlink /dev/block/platform/bootdevice /dev/block/bootdevice
@@ -19,13 +20,8 @@ on post-fs
     symlink /dev/block/mmcblk0boot1 /dev/block/by-name/preloader_b
 
 on fs
-    install_keyring /data
+    install_keyring
     setprop crypto.ready 1
-
-
-on load_persist_props_action
-    load_persist_props
-
 
 
 on boot
@@ -124,14 +120,7 @@ stop gatekeeperd
     stop keymaster-4-0
     stop gatekeeper-1-0
     stop keymaster_attestation-1-1
-on late-fs
-class_start early_hal
-    # Now we can mount /data. File encryption requires keymaster to decrypt
-    # /data, which in turn can only be loaded when system properties are present.
-    trigger post-fs-data
-
-    # Load persist properties and override properties (if enabled) from /data.
-    trigger load_persist_props_action
+  
 
    
 
