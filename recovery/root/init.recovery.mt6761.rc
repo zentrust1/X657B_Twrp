@@ -30,8 +30,6 @@ on load_persist_props_action
 
 trigger load_persist_props_action
 
-on post-fs-data
-    mark_post_data
 
 on boot
 wait_for_prop hwservicemanager.ready "true"
