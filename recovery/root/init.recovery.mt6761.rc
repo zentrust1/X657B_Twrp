@@ -28,9 +28,6 @@ on load_persist_props_action
 
 
 
-trigger load_persist_props_action
-
-
 on boot
 wait_for_prop hwservicemanager.ready "true"
 exec_start update_verifier
@@ -155,7 +152,6 @@ on late-init
     # Load persist properties and override properties (if enabled) from /data.
     trigger load_persist_props_action
 
-    # Should be before netd, but after apex, properties and logging is available.
-    trigger load_bpf_programs
+   
 
    
