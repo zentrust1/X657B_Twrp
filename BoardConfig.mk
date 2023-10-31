@@ -3,7 +3,7 @@ DEVICE_PATH := device/infinix/Nova
 # For building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true
 
-
+RECOVERY_VARIANT := twrp
 # Architecture
 TARGET_ARCH := arm
 TARGET_ARCH_VARIANT := armv7-a-neon
