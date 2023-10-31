@@ -38,30 +38,31 @@ start health-hal-2-1
 start beanpod_check_keybox_service
 start gatekeeperd
 
-service beanpod_check_keybox_service /vendor/bin/bp_kmsetkey_ca -c
+service beanpod_check_keybox_service /vendor/bin/bp_kmsetkey_ca
     class late_start
     user system
     group system
     oneshot
 seclabel u:r:recovery:s0
 
-service gatekeeperd /system/bin/gatekeeperd /data/misc/gatekeeper
+service gatekeeperd /system/bin/gatekeeperd
     class late_start
     user system
+group system
     writepid /dev/cpuset/system-background/tasks
 seclabel u:r:recovery:s0
 
 
 service keystore_auth /system/bin/keystore_cli_v2
-    class main
     user system
-    group system drmrpc
+    group system
+disabled
 seclabel u:r:recovery:s0
 
 
 
 
-service keystore /system/bin/keystore /data/misc/keystore
+service keystore /system/bin/keystore
     class main
     user keystore
     group keystore drmrpc readproc log
