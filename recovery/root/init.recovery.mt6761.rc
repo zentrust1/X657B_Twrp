@@ -28,6 +28,8 @@ on boot
 wait_for_prop hwservicemanager.ready "true"
 exec_start update_verifier
 start uncrypt
+start keystore
+star keystore_auth
 start teei_daemon
 start keymaster-4-0
 start keymaster_attestation-1-1
@@ -48,6 +50,16 @@ service gatekeeperd /system/bin/gatekeeperd /data/misc/gatekeeper
     user system
     writepid /dev/cpuset/system-background/tasks
 seclabel u:r:recovery:s0
+
+
+service keystore_auth /system/bin/keystore_cli_v2
+    class main
+    user system
+    group system drmrpc
+seclabel u:r:recovery:s0
+
+
+
 
 service keystore /system/bin/keystore /data/misc/keystore
     class main
