@@ -91,8 +91,6 @@ TARGET_USERIMAGES_USE_F2FS := true
 
 # Crypto
 TW_INCLUDE_CRYPTO := true
-TW_INCLUDE_CRYPTO_FBE := true
-TW_USE_FSCRYPT_POLICY := 1
 
 
 # # Hack: prevent anti roll back
