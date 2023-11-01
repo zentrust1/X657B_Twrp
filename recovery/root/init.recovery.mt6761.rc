@@ -35,8 +35,6 @@ start keymaster-4-0
 start keymaster_attestation-1-1
 start gatekeeper-1-0
 start health-hal-2-1
-start beanpod_check_keybox_service
-start gatekeeperd
 
 service beanpod_check_keybox_service /vendor/bin/bp_kmsetkey_ca
     class late_start
@@ -54,15 +52,16 @@ seclabel u:r:recovery:s0
 
 
 service keystore_auth /system/bin/keystore_cli_v2
+class main
     user system
-    group system
+    group system drmpc
 disabled
 seclabel u:r:recovery:s0
 
 
 
 
-service keystore /system/bin/keystore
+service keystore /system/bin/keystore /data/misc/keystore/user_0
     class main
     user keystore
     group keystore drmrpc readproc log
