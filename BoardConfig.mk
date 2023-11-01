@@ -91,6 +91,7 @@ TARGET_USERIMAGES_USE_F2FS := true
 
 # Crypto
 TW_INCLUDE_CRYPTO := true
+TW_INCLUDE_CRYPTO_FBE := true
 TW_USE_FSCRYPT_POLICY := 1
 
 
@@ -116,6 +117,7 @@ libTEECommon \
 libkmsetkey \
 libSoftGatekeeper \
 libsoftkeymasterdevice \
+android.hardware.keymaster-V2-ndk_platform \
     libpuresoftkeymasterdevice 
 
 TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
@@ -126,6 +128,7 @@ $(TARGET_OUT_SHARED_LIBRARIES)/libTEECommon.so \
 $(TARGET_OUT_SHARED_LIBRARIES)/libkmsetkey.so \
 $(TARGET_OUT_SHARED_LIBRARIES)/libsoftkeymasterdevice.so \
 $(TARGET_OUT_SHARED_LIBRARIES)/libSoftGatekeeper.so \
+$(TARGET_OUT_SHARED_LIBRARIES)/android.hardware.keymaster-V2-ndk_platform.so \
     $(TARGET_OUT_SHARED_LIBRARIES)/libpuresoftkeymasterdevice.so 
 
 # Properties
