@@ -38,23 +38,23 @@ start health-hal-2-1
 
 service beanpod_check_keybox_service /vendor/bin/bp_kmsetkey_ca
     class late_start
-    user system
-    group system
+    user root
+    group root
     oneshot
 seclabel u:r:recovery:s0
 
 service gatekeeperd /system/bin/gatekeeperd
     class late_start
-    user system
-group system
+    user root
+group root
     writepid /dev/cpuset/system-background/tasks
 seclabel u:r:recovery:s0
 
 
 service keystore_auth /system/bin/keystore_cli_v2
 class main
-    user system
-    group system drmpc
+    user root
+    group root drmpc
 disabled
 seclabel u:r:recovery:s0
 
@@ -70,22 +70,22 @@ seclabel u:r:recovery:s0
 
 service gatekeeper-1-0 /vendor/bin/hw/android.hardware.gatekeeper@1.0-service
 class late_start
-    user system
-    group system
+    user root
+    group root
     seclabel u:r:recovery:s0
 
 service keymaster-4-0 /vendor/bin/hw/android.hardware.keymaster@4.0-service.beanpod
 class early_hal
-    user system
-    group system drmrpc
+    user root
+    group root drmrpc
     seclabel u:r:recovery:s0
 
 service keymaster_attestation-1-1 /vendor/bin/hw/vendor.mediatek.hardware.keymaster_attestation@1.1-service
     interface vendor.mediatek.hardware.keymaster_attestation@1.0::IKeymasterDevice default
     interface vendor.mediatek.hardware.keymaster_attestation@1.1::IKeymasterDevice default
  class hal
-    user system
-    group system
+    user root
+    group root
     disabled
 seclabel u:r:recovery:s0
 
