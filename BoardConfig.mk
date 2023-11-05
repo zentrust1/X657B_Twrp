@@ -160,4 +160,4 @@ TW_INCLUDE_RESETPROP := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
 TW_USE_TOOLBOX := true
 # Maintainer/Version
-TW_DEVICE_VERSION := Massatrio16
+TW_DEVICE_VERSION := kangrusuh
