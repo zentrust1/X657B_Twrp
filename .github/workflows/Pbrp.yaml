@@ -1,4 +1,4 @@
-name: Make Recovery
+name: Make PBRP
 
 on:
   workflow_dispatch:
