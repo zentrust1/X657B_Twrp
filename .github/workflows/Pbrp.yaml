@@ -11,9 +11,7 @@ on:
         description: 'MANIFEST_BRANCH'
         required: true
         default: 'android-11'
-      MANIFEST_URL:
-        description: 'MANIFEST_URL'
-        required: true
+      
       DEVICE_TREE_URL:
         description: 'DEVICE_TREE_URL'
         required: true
