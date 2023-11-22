@@ -87,14 +87,7 @@ jobs:
         sudo bash setup/install_android_sdk.sh
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
-    - name: Sync PBRP sources and minimal manifest
-      run: |
-        cd ${{ steps.pwd.outputs.workspace-folder }}
-        git clone ${{ github.event.inputs.SYNC_URL }}
-        cd manifest_pb
-        ./orangefox_sync.sh --branch ${{ github.event.inputs.MANIFEST_BRANCH }} --path ${{ steps.pwd.outputs.workspace-folder }}/pbrp_${{ github.event.inputs.MANIFEST_BRANCH }}
-      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
-
+    
     - name: Clone device tree
       run: |
         cd ${{ steps.pwd.outputs.workspace-folder }}/pbrp_${{ github.event.inputs.MANIFEST_BRANCH }}
