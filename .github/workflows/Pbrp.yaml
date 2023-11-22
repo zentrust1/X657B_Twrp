@@ -1,16 +1,19 @@
-name: Build pbrp
+name: PBRP Build
 
 on:
   workflow_dispatch:
     inputs:
-      MANIFEST_URL:
-        description: 'MANIFEST_URL (if want to use SSH keys, use git@github.com:XXXXX)'
+      SYNC_URL:
+        description: 'SYNC_URL'
         required: true
         default: 'https://github.com/PitchBlackRecoveryProject/manifest_pb.git'
       MANIFEST_BRANCH:
         description: 'MANIFEST_BRANCH'
         required: true
         default: 'android-11'
+      MANIFEST_URL:
+        description: 'MANIFEST_URL'
+        required: true
       DEVICE_TREE_URL:
         description: 'DEVICE_TREE_URL'
         required: true
@@ -45,57 +48,17 @@ on:
 jobs:
   build:
     if: github.event.repository.owner.id == github.event.sender.id
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     permissions:
       contents: write
     steps:
-    - name: Display Run Parameters
-      run: |
-        echo "::group::User Environment Variables"
-        echo "Manifest URL: ${{ github.event.inputs.MANIFEST_URL }}"
-        echo "Manifest Branch: ${{ github.event.inputs.MANIFEST_BRANCH }}"
-        echo "Device Tree URL: ${{ github.event.inputs.DEVICE_TREE_URL }}"
-        echo "Device Tree Branch: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
-        echo "Device Path: ${{ github.event.inputs.DEVICE_PATH }}"
-        echo "Device Name: ${{ github.event.inputs.DEVICE_NAME }}"
-        echo "Makefile Name: ${{ github.event.inputs.MAKEFILE_NAME }}"
-        echo "Build Target: ${{ github.event.inputs.BUILD_TARGET }}.img"
-        echo "::endgroup::"
- 
-    # You might want to Checkout your repo first, but not mandatory
-    - name: Check Out
-      uses: actions/checkout@v3
-    # Cleanup The Actions Workspace Using Custom Composite Run Actions
-    - name: Cleanup
-      uses: rokibhasansagar/slimhub_actions@main
-      # That's it! Now use your normal steps
-
-    - name: Prepare the environment
-      run: |
-        sudo apt update
-        sudo apt -y upgrade
-        sudo apt -y install gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib libc6-dev lib32ncurses5-dev x11proto-core-dev libx11-dev tree lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev libxml2 lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libncurses5 python3
-
-    - name: Install OpenJDK
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'zulu'
-        java-version: '8'
-
-    - name: Setup SSH Keys
-      if: ${{ startsWith(github.event.inputs.MANIFEST_URL, 'git@github.com') }}
-      uses: webfactory/ssh-agent@v0.5.4
-      with:
-          ssh-private-key: |
-              ${{ secrets.SSH_PRIVATE_KEY }}
-
     - name: Install repo
       run: |
         mkdir ~/bin
         curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
         chmod a+x ~/bin/repo
         sudo ln -sf ~/bin/repo /usr/bin/repo
-      
+
     - name: Initialize repo
       run: |
         mkdir workspace
@@ -105,14 +68,36 @@ jobs:
         git config --global user.email "b170420nc@gmail.com"
         repo init --depth=1 -u ${{ github.event.inputs.MANIFEST_URL }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
       id: pwd
-          
+
     - name: Repo Sync
       run: |
         repo sync -j$(nproc --all) --force-sync
       working-directory: workspace
-      
+
+    - name: Cleanup
+      uses: rokibhasansagar/slimhub_actions@main
+
+    - name: Prepare the build environment
+      run: |
+        sudo apt install git aria2 -y
+        git clone https://github.com/PitchBlackRecoveryProject/PBRP_build.git
+        cd PBRP_build
+        sudo bash setup/android_build_env.sh
+        sed -i 's/cd -/cd ../g' setup/install_android_sdk.sh
+        sudo bash setup/install_android_sdk.sh
+      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+
+    - name: Sync PBRP sources and minimal manifest
+      run: |
+        cd ${{ steps.pwd.outputs.workspace-folder }}
+        git clone ${{ github.event.inputs.SYNC_URL }}
+        cd manifest_pb
+        ./orangefox_sync.sh --branch ${{ github.event.inputs.MANIFEST_BRANCH }} --path ${{ steps.pwd.outputs.workspace-folder }}/pbrp_${{ github.event.inputs.MANIFEST_BRANCH }}
+      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+
     - name: Clone device tree
       run: |
+        cd ${{ steps.pwd.outputs.workspace-folder }}/pbrp_${{ github.event.inputs.MANIFEST_BRANCH }}
         git clone ${{ github.event.inputs.DEVICE_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
@@ -121,23 +106,9 @@ jobs:
         github.event.inputs.COMMON_TREE_URL != null
         && github.event.inputs.COMMON_PATH != null
       run: |
+        cd ${{ steps.pwd.outputs.workspace-folder }}/pbrp_${{ github.event.inputs.MANIFEST_BRANCH }}
         git clone ${{ github.event.inputs.COMMON_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.COMMON_PATH }}
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
-
-    - name: Check Build Tree
-      uses: haya14busa/action-cond@v1
-      id: buildtree
-      with:
-        cond: ${{ github.event.inputs.MANIFEST_BRANCH == 'twrp-11' || github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1' }}
-        if_true: twrp
-        if_false: omni
-
-    - name: Sync Device Dependencies
-      run: |
-        bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/${{ steps.buildtree.outputs.value }}.dependencies
-        repo sync -j$(nproc --all)
-      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
-      continue-on-error: true
 
     - name: Set Swap Space
       uses: pierotofy/set-swap-space@master
@@ -146,23 +117,32 @@ jobs:
 
     - name: Building recovery
       run: |
+        cd ${{ steps.pwd.outputs.workspace-folder }}/pbrp_${{ github.event.inputs.MANIFEST_BRANCH }}
+        set +e
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
-        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
+        set -e
+        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && mka adbd ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+      continue-on-error: true
+
+    - name: Check the output directory before uploading
+      run: |
+        ls -al ${{ steps.pwd.outputs.workspace-folder }}/pbrp_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/
+        echo
+        ls -al ${{ steps.pwd.outputs.workspace-folder }}/pbrp_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/
 
     - name: Upload to Release
       uses: softprops/action-gh-release@v1
       with:
-        files: | 
-          workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/${{ github.event.inputs.BUILD_TARGET }}.img
-          workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/*.zip
-          workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/*vendor*.img
+        files: |
+          ${{ steps.pwd.outputs.workspace-folder }}/pbrp_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/*.img
+          ${{ steps.pwd.outputs.workspace-folder }}/pbrp_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/*.zip
         name: ${{ github.event.inputs.DEVICE_NAME }}-${{ github.run_id }}
         tag_name: ${{ github.run_id }}
         body: |
           Manifest: ${{ github.event.inputs.MANIFEST_BRANCH }}
           Device: ${{ github.event.inputs.DEVICE_NAME }}
-          Target: ${{ github.event.inputs.BUILD_TARGET }}.img
+          Target: ${{ github.event.inputs.BUILD_TARGET }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
