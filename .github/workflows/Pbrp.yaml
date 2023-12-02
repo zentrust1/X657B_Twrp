@@ -8,24 +8,34 @@ on:
         required: true
         default: 'android-11.0'
         
-      DEVICE_TREE:
-        description: 'Custom Recovery Tree' # Your already made Device Tree for TWRP
+      DEVICE_TREE_URL:
+        description: 'DEVICE_TREE_URL'
         required: true
-        default: 'https://github.com/zentrust1/Nova_Twrp'
+        default: 'https://github.com/zentrust1/X657b_Twrp'
       DEVICE_TREE_BRANCH:
-        description: 'Custom Recovery Tree Branch' # Your Device Tree Branch, make sure it's right.
+        description: 'DEVICE_TREE_BRANCH'
         required: true
         default: 'android-11'
       DEVICE_PATH:
-        description: 'Specify your Device Path' # As is, just like your DEVICE_PATH in your BoardConfig.mk
+        description: 'DEVICE_PATH'
         required: true
-        default: 'device/infinix/Nova'
+        default: 'device/infinix/X657b'
+      COMMON_TREE_URL:
+        description: 'COMMON_TREE_URL (if no common tree, leave blank)'
+        required: false
+      COMMON_PATH:
+        description: 'COMMON_PATH (if no common tree, leave blank)'
+        required: false
       DEVICE_NAME:
-        description: 'Specify your Device Codename' # As is, just like your PRODUCT_DEVICE in your device tree.
+        description: 'DEVICE_NAME'
         required: true
-        default: 'Nova'
+        default: 'X657b'
+      MAKEFILE_NAME:
+        description: 'MAKEFILE_NAME'
+        required: true
+        default: 'twrp_X657b'
       BUILD_TARGET:
-        description: 'Specify your Build Target' # Pick among boot, recovery and vendor_boot
+        description: 'BUILD_TARGET'
         required: true
         default: 'recovery'
         
