@@ -1,4 +1,4 @@
-LOCAL_PATH := device/infinix/Nova
+LOCAL_PATH := device/infinix/X657b
 
 PRODUCT_TARGET_VNDK_VERSION := 30
 PRODUCT_SHIPPING_API_LEVEL := 30
