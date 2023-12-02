@@ -1,4 +1,4 @@
-DEVICE_PATH := device/infinix/Nova
+DEVICE_PATH := device/infinix/X657b
 
 # For building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true
@@ -14,7 +14,7 @@ TARGET_CPU_VARIANT_RUNTIME := cortex-a53
 TARGET_USES_64_BIT_BINDER := true
 
 # Assert
-TARGET_OTA_ASSERT_DEVICE := Nova
+TARGET_OTA_ASSERT_DEVICE := X657b
 #APEX
 OVERRIDE_TARGET_FLATTEN_APEX := true
 # Bootloader"
@@ -44,8 +44,8 @@ BOARD_MKBOOTIMG_ARGS += --tags_offset $(BOARD_KERNEL_TAGS_OFFSET)
 BOARD_KERNEL_IMAGE_NAME := Image
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 BOARD_KERNEL_SEPARATED_DTBO := true
-TARGET_KERNEL_CONFIG := Nova_defconfig
-TARGET_KERNEL_SOURCE := kernel/infinix/Nova
+TARGET_KERNEL_CONFIG := X657b_defconfig
+TARGET_KERNEL_SOURCE := kernel/infinix/X657b
 
 # Kernel - prebuilt
 TARGET_FORCE_PREBUILT_KERNEL := true
