@@ -10,22 +10,16 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
 # Inherit from spinel device
-$(call inherit-product, device/infinix/Nova/device.mk)
+$(call inherit-product, device/infinix/X657b/device.mk)
 
 # Inherit some common Omni stuff.
 
 
 # Device identifier. This must come after all inclusions
-PRODUCT_DEVICE := Nova
-PRODUCT_NAME := twrp_Nova
+PRODUCT_DEVICE := X657b
+PRODUCT_NAME := twrp_X657b
 PRODUCT_BRAND := Infinix
-PRODUCT_MODEL := Infinix Nova
+PRODUCT_MODEL := Infinix X657b
 PRODUCT_MANUFACTURER := infinix
-PRODUCT_RELEASE_NAME := Infinix Infinix Nova
+PRODUCT_RELEASE_NAME := Infinix Infinix X657b
 
-PRODUCT_GMS_CLIENTID_BASE := android-transsion-infinix-rev1
-
-PRODUCT_BUILD_PROP_OVERRIDES += \
-    PRIVATE_BUILD_DESC="full_x657b_h6117-user 10 QP1A.190711.020 136739 release-keys"
-
-BUILD_FINGERPRINT := Infinix/X657B-OP/Infinix-X657B:10/QP1A.190711.020/DFJ-OP-210728V386:user/release-keys
