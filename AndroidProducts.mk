@@ -9,6 +9,6 @@ PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/twrp_X657b.mk
 
 COMMON_LUNCH_CHOICES := \
-    twrp_Nova-user \
-    twrp_Nova-userdebug \
-    twrp_Nova-eng
+    twrp_X657b-user \
+    twrp_X657b-userdebug \
+    twrp_X657b-eng
