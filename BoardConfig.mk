@@ -46,6 +46,7 @@ BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 BOARD_KERNEL_SEPARATED_DTBO := true
 TARGET_KERNEL_CONFIG := X657b_defconfig
 TARGET_KERNEL_SOURCE := kernel/infinix/X657b
+BOARD_HASH_TYPE := sha1
 
 # Kernel - prebuilt
 TARGET_FORCE_PREBUILT_KERNEL := true
@@ -86,11 +87,9 @@ BOARD_SUPPRESS_SECURE_ERASE := true
 
 # Recovery
 BOARD_INCLUDE_RECOVERY_DTBO := true
-TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_USERIMAGES_USE_F2FS := true
 
 # Crypto
-TW_INCLUDE_CRYPTO := true
+
 
 
 # # Hack: prevent anti roll back
