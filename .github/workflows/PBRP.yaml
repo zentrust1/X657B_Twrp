@@ -11,7 +11,7 @@ on:
       DEVICE_TREE:
         description: 'DEVICE_TREE_URL'
         required: true
-        default: 'git@github.com:zentrust1/X657B_Twrp.git'
+        default: 'github.com:zentrust1/X657B_Twrp'
       DEVICE_TREE_BRANCH:
         description: 'DEVICE_TREE_BRANCH'
         required: true
