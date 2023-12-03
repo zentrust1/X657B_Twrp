@@ -6,7 +6,7 @@ on:
       MANIFEST_BRANCH:
         description: 'Manifest Branch'
         required: true
-        default: 'android-11.0'
+        default: 'android-12.1'
         
       DEVICE_TREE_URL:
         description: 'DEVICE_TREE_URL'
