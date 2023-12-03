@@ -13,7 +13,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 $(call inherit-product, device/infinix/X657B/device.mk)
 
 # Inherit some common Omni stuff.
-
+$(call inherit-product, vendor/twrp/config/common.mk)
 
 # Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := X657B
@@ -22,4 +22,3 @@ PRODUCT_BRAND := Infinix
 PRODUCT_MODEL := Infinix X657B
 PRODUCT_MANUFACTURER := infinix
 PRODUCT_RELEASE_NAME := Infinix Infinix X657B
-
